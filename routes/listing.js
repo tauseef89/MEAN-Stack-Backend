@@ -22,13 +22,23 @@ router.post("/", async (req, res) => {
 
 // Get All listings
 
-router.get("/", (req, res) => {
-  res.send("All listings");
+router.get("/", async (req, res) => {
+  try {
+    const listings = await Listing.find();
+    res.json(listings);
+  } catch (error) {
+    res.json({ message: error });
+  }
 });
 
 // Single listing
-router.get("/:listingId", (req, res) => {
-  res.send("Single listing");
+router.get("/:listingId", async (req, res) => {
+  try {
+    const listing = await Listing.findById(req.params.listingId);
+    res.json(listing);
+  } catch (error) {
+    res.json({ message: error });
+  }
 });
 
 // Update listing
