@@ -15,6 +15,9 @@ mongoose.connect(
 // Import routes
 const listinRoutes = require("./routes/listing");
 
+// Middlewares
+app.use(express.json());
+
 // route Middlewares
 app.use("/api/listings", listinRoutes);
 
