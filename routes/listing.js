@@ -42,13 +42,33 @@ router.get("/:listingId", async (req, res) => {
 });
 
 // Update listing
-router.put("/:listingId", (req, res) => {
-  res.send("Update listing");
+router.put("/:listingId", async (req, res) => {
+  try {
+    const listing = {
+      title: req.body.title,
+      price: req.body.price,
+      locality: req.body.locality,
+      details: req.body.details
+    };
+
+    const updatedListing = await Listing.findByIdAndUpdate(
+      { _id: req.params.listingId },
+      listing
+    );
+    res.json(updatedListing);
+  } catch (error) {
+    res.json({ message: error });
+  }
 });
 
 // Delete listing
-router.delete("/:listingId", (req, res) => {
-  res.send("Delete listing");
+router.delete("/:listingId", async (req, res) => {
+  try {
+    const removeListing = await Listing.findByIdAndDelete(req.params.listingId);
+    res.json(removeListing);
+  } catch (error) {
+    res.json({ message: error });
+  }
 });
 
 module.exports = router;
