@@ -1,10 +1,10 @@
 const router = require("express").Router();
-
+const verify = require("../routes/verifyToken");
 const Listing = require("../model/Listing");
 
 // Add New listing
 
-router.post("/", async (req, res) => {
+router.post("/", verify, async (req, res) => {
   const listing = new Listing({
     title: req.body.title,
     price: req.body.price,
@@ -42,7 +42,7 @@ router.get("/:listingId", async (req, res) => {
 });
 
 // Update listing
-router.put("/:listingId", async (req, res) => {
+router.put("/:listingId", verify, async (req, res) => {
   try {
     const listing = {
       title: req.body.title,
@@ -62,7 +62,7 @@ router.put("/:listingId", async (req, res) => {
 });
 
 // Delete listing
-router.delete("/:listingId", async (req, res) => {
+router.delete("/:listingId", verify, async (req, res) => {
   try {
     const removeListing = await Listing.findByIdAndDelete(req.params.listingId);
     res.json(removeListing);
